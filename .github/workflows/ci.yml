@@ -11,9 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Determine CalVer version
-        run: echo "CALVER=$(date +'%Y.%m.%d')" >> $GITHUB_ENV
+        id: calver
+        run: echo "CALVER=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
       - name: Display CalVer
-        run: echo "CalVer version $CALVER"
+        run: echo "CalVer version ${{ steps.calver.outputs.CALVER }}"
       - name: Checkout
         uses: actions/checkout@v4
       - name: Login to GitHub Container Registry
@@ -35,7 +36,7 @@ jobs:
           push: true
           tags: |
             ${{ github.actor }}/caddy-docker-proxy-cloudflare:latest
-            ${{ github.actor }}/caddy-docker-proxy-cloudflare:$CALVER
+            ${{ github.actor }}/caddy-docker-proxy-cloudflare:${{ steps.calver.outputs.CALVER }}
       - name: Create tag
         uses: actions/github-script@v5
         with:
@@ -43,6 +44,6 @@ jobs:
             github.rest.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/$CALVER',
+              ref: 'refs/tags/${{ steps.calver.outputs.CALVER }}',
               sha: context.sha
             })
