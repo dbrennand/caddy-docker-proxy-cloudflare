@@ -2,11 +2,12 @@
 name: ci
 
 on:
+  workflow_dispatch: # Allows manual execution
   schedule:
-    - cron: "0 0 1 * *"
+    - cron: "0 0 1 * *" # Runs on the 1st of every month
 
 jobs:
-  buildx:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - name: Determine CalVer version
