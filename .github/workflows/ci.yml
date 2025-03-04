@@ -35,8 +35,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ github.actor }}/caddy-docker-proxy-cloudflare:latest
-            ${{ github.actor }}/caddy-docker-proxy-cloudflare:${{ steps.calver.outputs.CALVER }}
+            ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:latest
+            ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:${{ steps.calver.outputs.CALVER }}
       - name: Create tag
         uses: actions/github-script@v5
         with:
