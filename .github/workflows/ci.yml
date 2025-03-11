@@ -43,7 +43,7 @@ jobs:
             ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:latest
             ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:${{ steps.calver.outputs.CALVER }}
       - name: Create tag
-        uses: actions/github-script@v5
+        uses: actions/github-script@v7
         with:
           script: |
             github.rest.git.createRef({
