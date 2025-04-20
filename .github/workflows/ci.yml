@@ -42,6 +42,18 @@ jobs:
           tags: |
             ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:latest
             ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:${{ steps.calver.outputs.CALVER }}
+      - name: Snyk vulnerability scan
+        continue-on-error: true
+        uses: snyk/actions/docker@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          image: ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:${{ steps.calver.outputs.CALVER }}
+          args: --file=Dockerfile
+      - name: Upload Snyk vulnerability scan results to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk.sarif
       - name: Create tag
         uses: actions/github-script@v7
         with:

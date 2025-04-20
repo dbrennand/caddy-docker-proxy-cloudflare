@@ -12,6 +12,12 @@ I have some low powered ARM based devices (Raspberry Pis) where building the ima
 
 No.
 
+### Is this container image kept up to date?
+
+- A [GitHub Action](.github/workflows/ci.yml) is set up with a cron schedule to re-build the image on the 1st of every month.
+- [Renovate](renovate.json) is configured to create pull requests when dependencies are updated.
+- Snyk is used to scan the container image for vulnerabilities.
+
 ## License 📝
 
 [LICENSE](LICENSE)
