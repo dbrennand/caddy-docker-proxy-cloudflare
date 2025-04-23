@@ -13,6 +13,7 @@ jobs:
     permissions:
       contents: write
       packages: write
+      security-events: write
     steps:
       - name: Determine CalVer version
         id: calver
