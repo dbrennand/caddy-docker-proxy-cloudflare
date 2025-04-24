@@ -1,5 +1,5 @@
 ---
-name: ci
+name: CI
 
 on:
   workflow_dispatch: # Allows manual execution
