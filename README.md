@@ -1,5 +1,7 @@
 # caddy-docker-proxy-cloudflare
 
+![CI](https://github.com/dbrennand/caddy-docker-proxy-cloudflare/actions/workflows/ci.yml/badge.svg)
+
 Caddy container image with [caddy-docker-proxy](https://github.com/lucaslorentz/caddy-docker-proxy) and [Cloudflare DNS](https://github.com/caddy-dns/cloudflare) modules. Built for ARM and AMD64 CPU architectures.
 
 ## FAQs
