@@ -52,6 +52,7 @@ jobs:
           image: ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:${{ steps.calver.outputs.CALVER }}
           args: --file=Dockerfile
       - name: Upload Snyk vulnerability scan results to GitHub Code Scanning
+        continue-on-error: true
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: snyk.sarif
