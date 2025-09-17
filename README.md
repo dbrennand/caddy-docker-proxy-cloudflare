@@ -16,7 +16,8 @@ I have some low powered ARM based devices (Raspberry Pis) where building the ima
 
 No.
 
-### Is this container image kept up to date?ß
+### Is this container image kept up to date?
+
 - [Renovate](renovate.json) is configured to create pull requests when dependencies are updated.
 - Snyk is used to scan the container image for vulnerabilities on the 1st of every month.
 
