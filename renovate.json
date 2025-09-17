@@ -11,7 +11,8 @@
             "matchStrings": [
                 "--with github.com/(?<depName>.*?)(?:@(?<currentValue>.*?))?\\s"
             ],
-            "datasourceTemplate": "github-releases"
+            "datasourceTemplate": "github-tags",
+            "versioningTemplate": "semver-coerced"
         }
     ]
 }
