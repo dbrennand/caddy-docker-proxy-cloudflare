@@ -1,9 +1,9 @@
-FROM docker.io/caddy:2.10.0-builder-alpine AS builder
+FROM docker.io/caddy:2.10.2-builder-alpine AS builder
 
 RUN xcaddy build \
-    --with github.com/caddy-dns/cloudflare@35fb847 \
-    --with github.com/lucaslorentz/caddy-docker-proxy@v2.9.2
+    --with github.com/caddy-dns/cloudflare@f589a18 \
+    --with github.com/lucaslorentz/caddy-docker-proxy@v2.10.0
 
-FROM docker.io/caddy:2.10.0-alpine
+FROM docker.io/caddy:2.10.2-alpine
 
 COPY --from=builder /usr/bin/caddy /usr/bin/caddy

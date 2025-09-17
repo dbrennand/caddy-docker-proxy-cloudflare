@@ -6,14 +6,13 @@
     "regexManagers": [
         {
             "fileMatch": [
-                "^Dockerfile$"
+                "Dockerfile"
             ],
             "matchStrings": [
-                "--with\\s+(?<depName>github\\.com/[^@\\s]+)@(?<currentValue>v[0-9]+\\.[0-9]+\\.[0-9]+)"
+                "--with github.com/(?<depName>.*?)(?:@(?<currentValue>.*?))?\\s"
             ],
             "datasourceTemplate": "github-tags",
-            "depNameTemplate": "{{{depName}}}",
-            "versioningTemplate": "semver"
+            "versioningTemplate": "semver-coerced"
         }
     ]
 }

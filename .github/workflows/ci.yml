@@ -3,8 +3,9 @@ name: CI
 
 on:
   workflow_dispatch: # Allows manual execution
-  schedule:
-    - cron: "0 0 1 * *" # Runs on the 1st of every month
+  push:
+    branches:
+      - main
 
 jobs:
   ci:
@@ -57,7 +58,7 @@ jobs:
         with:
           sarif_file: snyk.sarif
       - name: Create tag
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             github.rest.git.createRef({
