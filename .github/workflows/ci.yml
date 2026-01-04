@@ -19,22 +19,28 @@ jobs:
       - name: Determine CalVer version
         id: calver
         run: echo "CALVER=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
+
       - name: Display CalVer
         run: echo "CalVer version ${{ steps.calver.outputs.CALVER }}"
+
       - name: Checkout
         uses: actions/checkout@v6
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
           platforms: linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6
+
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
@@ -44,6 +50,7 @@ jobs:
           tags: |
             ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:latest
             ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:${{ steps.calver.outputs.CALVER }}
+
       - name: Snyk vulnerability scan
         continue-on-error: true
         uses: snyk/actions/docker@master
@@ -52,11 +59,17 @@ jobs:
         with:
           image: ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:${{ steps.calver.outputs.CALVER }}
           args: --file=Dockerfile
+
+      - name: Replace security-severity undefined for license-related findings
+        run: |
+          sed -i 's/"security-severity": "undefined"/"security-severity": "0"/g' snyk.sarif
+
       - name: Upload Snyk vulnerability scan results to GitHub Code Scanning
         continue-on-error: true
         uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: snyk.sarif
+
       - name: Create tag
         uses: actions/github-script@v8
         with:
