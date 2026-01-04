@@ -25,9 +25,10 @@ jobs:
           image: ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:latest
           args: --file=Dockerfile
 
-      - name: Replace security-severity undefined for license-related findings
+      - name: Replace security-severity undefined or null for license-related findings
         run: |
           sed -i 's/"security-severity": "undefined"/"security-severity": "0"/g' snyk.sarif
+          sed -i 's/"security-severity": "null"/"security-severity": "0"/g' snyk.sarif
 
       - name: Upload Snyk vulnerability scan results to GitHub Code Scanning
         continue-on-error: true
