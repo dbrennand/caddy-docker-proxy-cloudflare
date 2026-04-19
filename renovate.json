@@ -9,8 +9,9 @@
                 "Dockerfile"
             ],
             "matchStrings": [
-                "--with github.com/(?<depName>.*?)(?:@(?<currentValue>.*?))?\\s"
+                "--with github\\.com/(?<depName>[^@]+?)@(?<currentDigest>[a-f0-9]{40})\\s+#\\s*(?<currentValue>[^\\s\\\\]+)"
             ],
+            "depNameTemplate": "{{replace '/v\\d+$' '' depName}}",
             "datasourceTemplate": "github-tags",
             "versioningTemplate": "semver-coerced"
         }
