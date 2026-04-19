@@ -2,18 +2,5 @@
     "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
         "config:recommended"
-    ],
-    "regexManagers": [
-        {
-            "fileMatch": [
-                "Dockerfile"
-            ],
-            "matchStrings": [
-                "--with github\\.com/(?<depName>[^@]+?)@(?<currentDigest>[a-f0-9]{40})"
-            ],
-            "depNameTemplate": "{{replace '/v\\d+$' '' depName}}",
-            "datasourceTemplate": "github-tags",
-            "versioningTemplate": "semver-coerced"
-        }
     ]
 }
