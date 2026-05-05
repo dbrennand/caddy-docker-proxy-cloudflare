@@ -18,7 +18,7 @@ jobs:
 
       - name: Snyk vulnerability scan
         continue-on-error: true
-        uses: snyk/actions/docker@9adf32b1121593767fc3c057af55b55db032dc04 # master
+        uses: snyk/actions/docker@9cf6ca713d71123d2d229cc3d7f145b96ea3c518 # master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
