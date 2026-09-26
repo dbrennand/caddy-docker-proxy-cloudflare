@@ -1,7 +1,7 @@
 FROM docker.io/caddy:2.11.4-builder-alpine AS builder
 
 RUN xcaddy build \
-    --with github.com/lucaslorentz/caddy-docker-proxy/v2@03253c239b6fffd2e471b75ee2e5d980692ce44d \
+    --with github.com/lucaslorentz/caddy-docker-proxy/v2@c2c2b0e265f26d67526d5e64b17755a3ad8603af \
     --with github.com/caddy-dns/cloudflare@a8737d095ad5a48ca031cea6ab704057dbc2d250
 
 FROM docker.io/caddy:2.11.4-alpine
