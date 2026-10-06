@@ -2,29 +2,23 @@
 name: CI
 
 on:
-  workflow_dispatch: # Allows manual execution
-  push:
-    branches:
-      - main
+  release:
+    types:
+      - published
 
 jobs:
   ci:
     runs-on: ubuntu-latest
     # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job
     permissions:
-      contents: write
+      contents: read
       packages: write
       security-events: write
     steps:
-      - name: Determine CalVer version
-        id: calver
-        run: echo "CALVER=$(date +'%Y.%m.%d')" >> $GITHUB_OUTPUT
-
-      - name: Display CalVer
-        run: echo "CalVer version ${{ steps.calver.outputs.CALVER }}"
-
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.release.tag_name }}
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4
@@ -49,7 +43,7 @@ jobs:
           push: true
           tags: |
             ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:latest
-            ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:${{ steps.calver.outputs.CALVER }}
+            ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:${{ github.event.release.tag_name }}
 
       - name: Snyk vulnerability scan
         continue-on-error: true
@@ -57,8 +51,7 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          image: ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:${{
-            steps.calver.outputs.CALVER }}
+          image: ghcr.io/${{ github.actor }}/caddy-docker-proxy-cloudflare:${{ github.event.release.tag_name }}
           args: --file=Dockerfile
 
       - name: Replace security-severity undefined or null for license-related findings
@@ -71,14 +64,3 @@ jobs:
         uses: github/codeql-action/upload-sarif@2892aa5e19bbd11bc0cff5427e3b750a04d9e3c2 # v4
         with:
           sarif_file: snyk.sarif
-
-      - name: Create tag
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
-        with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/${{ steps.calver.outputs.CALVER }}',
-              sha: context.sha
-            })
